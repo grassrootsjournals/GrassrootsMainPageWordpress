@@ -1,6 +1,7 @@
 # Grassroots Journals code for the main site
 
-This repository contains the code to generate the main page of the Grassroots Journals website. It is child theme of the Twentyseventeen Wordpress parent theme. For now only small changed needed to be made.
+This repository contains the code to generate the main page of the Grassroots Journals website. It is child theme of the Twentyseventeen Wordpress parent theme. For now only small changed needed to be made. Most of the work is on the code to generate the Grassroots journals themselves. This is found in the repository:
+https://github.com/grassrootsjournals/JournalWordpressHomepage
 
 Wordpress is a content management system published under a GNU Public License. You can find its code and community under:
 https://wordpress.org/
