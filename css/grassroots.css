@@ -1,0 +1,21 @@
+.entry-title {
+	hyphens: manual;
+}
+
+.site-footer {
+	background-image: url("/wp-content/uploads/2019/03/blackboard-smaller.jpg");
+	background-color: #222222;
+	color: #dddddd;
+}
+
+.blackboard {
+	background-image: url("/wp-content/uploads/2019/03/blackboard-smaller.jpg");
+	background-color: #220000;
+	color: #dddddd;
+}
+
+
+.site-footer a {
+	color: #dddddd;
+	box-shadow: inset 0 -1px 0 #dddddd;
+}
