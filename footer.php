@@ -45,6 +45,9 @@
 						<?php printf( __( '%s', 'twentyseventeen-child' ), 'Grassroots Journals' ); ?>
 					</a>
 					<span role="separator" aria-hidden="true"></span>
+					<a href="<?php echo esc_url( __( '/blog/', 'twentyseventeen' ) ); ?>" class="imprint">
+						<?php printf( __( '%s<br>', 'twentyseventeen-child' ), 'Blog' ); ?>
+					</a>
 					<a href="<?php echo esc_url( __( '/technology/', 'twentyseventeen' ) ); ?>" class="imprint">
 						<?php printf( __( '%s', 'twentyseventeen-child' ), 'Technology' ); ?>
 					</a>
