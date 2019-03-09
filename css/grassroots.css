@@ -128,6 +128,6 @@ textarea.errorfield {
 }
 
 /* Make the star indicating a required field red */
-form span{
+.requiredfield {
   color: red;
 }
