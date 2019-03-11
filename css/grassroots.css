@@ -14,6 +14,13 @@
 	color: #dddddd;
 }
 
+.wp-block-media-text {
+	align-items: flex-start;
+}
+
+.wp-block-media-text .wp-block-media-text__content {
+	padding: 0 15% 0 4%;
+}
 
 .site-footer a {
 	color: #dddddd;

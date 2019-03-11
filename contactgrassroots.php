@@ -2,22 +2,56 @@
 
 	/* Sanitize POST data (safety) */ 
 	// Radio button for the contact type.
+	// Default radio button setting
 	$checkedGeneral = "checked";
 	$checkedJournal = "";
-	$contactType = $_POST['contactType'];
-	if( strcmp($contactType, "general") != 0 and strcmp($contactType, "newJournal") != 0 and strcmp($contactType, "newsletter") != 0) {
+	$checkedNews    = "";
+
+	// Radio button setting determined by link
+	$initialContactType = $_GET['initial_state'];
+	if( $initialContactType === "general" ) {
+		$checkedGeneral = "checked";  // Sets the check mark
+		$contactType    = "general";  // Ensure that JS shows the right fields
+	}
+	if( $initialContactType === "newJournal" ) {
+		$checkedJournal = "checked";
+		$contactType    = "newJournal";
+	}
+	if( $initialContactType === "newsletter" ) {
+		$checkedNews = "checked";
+		$contactType = "newsletter";
+	}
+
+	// Radio button setting of the returned form
+	$contactTypeSubmitted = $_POST['contactType'];
+
+	/*
+	$contactTypeSubmitted = $_POST['contactType'];
+	if( ($_POST['submittedGrassroots'] == 1) and 
+		(strcmp($contactTypeSubmitted, "general")    != 0) and 
+		(strcmp($contactTypeSubmitted, "newJournal") != 0) and 
+		(strcmp($contactTypeSubmitted, "newsletter") != 0) ) {
 		$contactType = "general";
 		// echo("ContactType changed to default value " . $contactType . "<br>");
+		// $post_slug = $post->post_name;
 	}
+	*/
 	// Keep state after submit
-	if( $contactType ===  "general" )  {
+	if( $contactTypeSubmitted ===  "general" )  {
 		$checkedGeneral = "checked";
+		$contactType    = "general";
 	}
-	if( $contactType ===  "newJournal"  ) {
+	if( $contactTypeSubmitted ===  "newJournal"  ) {
 		$checkedJournal = "checked";
+		$contactType    = "newJournal";
 	}
-	if( $contactType ===  "newsletter"  ) {
+	if( $contactTypeSubmitted ===  "newsletter"  ) {
 		$checkedNews = "checked";
+		$contactType = "newsletter";
+	}
+	if ( isset($contactType) == FALSE ) {
+		$checkedGeneral = "checked";
+		$contactType    = "general";
 	}
 
 	// Check first name
@@ -55,7 +89,7 @@
 		wp_trim_words($messageComment, 1000);
 	}
 
-	$messageHuman = intval($_POST['messageHuman']);
+	$messageHuman = $_POST['messageHuman'];
 	if ( strlen( $messageHuman ) > 5 ) {
 		$messageHuman = substr( $messageHuman, 0, 5 );
 	}
@@ -211,7 +245,7 @@
 		}
 	} // if submitted
 
-get_header(); 
+	get_header(); 
 ?>
 
 
@@ -223,41 +257,38 @@ get_header();
 					<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 					<?php twentyseventeen_edit_link( get_the_ID() ); ?>
 				</header>
-
-				<?php
-				
-				if ( $submittedGrassroots == 1 ) {
-					if ($errorFound) {
-						echo("<div class='error'>{$errorMessage}</div>");					
-					} else {
-						echo("<div class='success'>{$errorMessage}</div>");
+				<?php 	
+					if ( $submittedGrassroots == 1 ) {
+						if ($errorFound) {
+							echo("<div class='error'>{$errorMessage}</div>");					
+						} else {
+							echo("<div class='success'>{$errorMessage}</div>");
+						}
 					}
-				}
 
-				/*
-			    echo($_POST['contactType'] . " ");
-			    echo($_POST['firstName'] . " ");
-			    echo($_POST['lastName'] . " ");
-			    echo($_POST['email'] . " ");
-			    echo($_POST['academicHomepage'] . " ");
-			    echo($_POST['journalName'] . " ");
-			    echo($_POST['URL'] . " ");
-			    echo($_POST['messageExpertise'] . " ");
-			    echo($_POST['messageComment'] . " ");
-			    echo($_POST['messageHuman'] . " ");
-			    echo($_POST['submittedGrassroots'] . " ");
-			    echo(the_permalink());
-			    */
-
-			    ?>
-
+					/*
+				    echo($_POST['contactType'] . " ");
+				    echo($_POST['firstName'] . " ");
+				    echo($_POST['lastName'] . " ");
+				    echo($_POST['email'] . " ");
+				    echo($_POST['academicHomepage'] . " ");
+				    echo($_POST['journalName'] . " ");
+				    echo($_POST['URL'] . " ");
+				    echo($_POST['messageExpertise'] . " ");
+				    echo($_POST['messageComment'] . " ");
+				    echo($_POST['messageHuman'] . " ");
+				    echo($_POST['submittedGrassroots'] . " ");
+				    echo(the_permalink());
+				    */
+				?>
 				<div class="entry-content">
-					<?php echo $response; ?>
+					<?php the_post(); ?>
+					<?php the_content(); ?>
 					<form action="<?php the_permalink(); ?>" method="post">						
 						<p><label>Purpose:</label><br>
 						<input type="radio" name="contactType" id="typeGeneral" value="general" <?php echo($checkedGeneral) ?> onclick="selectGeneral()"> <label for="typeGeneral">General comment (feel free to send <a href="mailto:victor.venema@grassroots.is?subject=Grassroots%20Journals%20Feedback&body=Dear%20Victor,">an email</a>).</label><br>
 		  				<input type="radio" name="contactType" id="typeJournal" value="newJournal" <?php echo($checkedJournal) ?> onclick="selectJournal()"><label for="typeJournal">Apply for a new Grassroots Journal.</label><br>
-		  				<input type="radio" name="contactType" id="typeNews" value="newsletter" <?php echo($checkedNews) ?> onclick="selectNewsletter()"><label for="typeNews">Subscribe to our newsletter.</label> (Stay in touch and be informed about progress. At most one mail per month and only when it is important. Promise!)</p>
+		  				<input type="radio" name="contactType" id="typeNews" value="newsletter" <?php echo($checkedNews) ?> onclick="selectNewsletter()"><label for="typeNews">Subscribe to our newsletter. (Stay in touch and be informed about progress. At most one mail per month and only when it is important. Promise!)</label></p>
 						
 						<p><label for="firstName">First name: </label><br>
 		  				<input type="text" name="firstName" id="firstName" maxlength="100" placeholder="Your given name" value="<?php echo($firstName) ?>" class="<?php echo($errorClassFirstName) ?>" ></p>
@@ -289,7 +320,7 @@ get_header();
 		                <input type="hidden" name="submittedGrassroots" value="1">
 		  				<p><input type="submit" value="Submit"></p>
 					</form> 
-				</div>
+				</div> <!-- content -->
 			</article>
 		</main><!-- #main -->
 	</div><!-- #primary -->
@@ -314,7 +345,7 @@ get_header();
 	
 	selectGeneral();
 	<?php 
-		if ( $submittedGrassroots == 1 ) {
+		// if ( $submittedGrassroots == 1 ) {
 			if( $contactType === "general") { 
 				echo("selectGeneral();");
 			}
@@ -324,9 +355,9 @@ get_header();
 			if( $contactType === "newsletter" ) {   
 				echo("selectNewsletter() ");
 			}	
-		}
+		// }
 	?>
 </script>
 
 <?php
-get_footer();
+	get_footer();
