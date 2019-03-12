@@ -1,4 +1,4 @@
-<?php /* Contact page: contactgrassroots */ 
+<?php /* Template Name: Contact form */
 
 	/* Sanitize POST data (safety) */ 
 	// Radio button for the contact type.
@@ -49,6 +49,23 @@
 		$checkedNews = "checked";
 		$contactType = "newsletter";
 	}
+	// If no state is set by the link or the submission, the page determines t
+	if ( isset($contactType) == FALSE ) {
+		$postName = $post->post_name;
+		if ( $postName === "contactgrassroots" ) {
+			$checkedGeneral = "checked";
+			$contactType    = "general";
+		}
+		if ( $postName === "start-a-new-grassroots-journal" ) {
+			$checkedJournal = "checked";
+			$contactType    = "newJournal";
+		}
+		if ( $postName === "grassroots-newsletter" ) {
+			$checkedNews    = "checked";
+			$contactType    = "newsletter";
+		}		
+	}
+	// If there is no preference up to now, the form's initial state is a general comment.
 	if ( isset($contactType) == FALSE ) {
 		$checkedGeneral = "checked";
 		$contactType    = "general";
