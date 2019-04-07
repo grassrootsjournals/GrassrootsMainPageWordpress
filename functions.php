@@ -18,6 +18,34 @@ function grassroots_theme_enqueue_styles() {
     );
 }
 add_action( 'wp_enqueue_scripts', 'grassroots_theme_enqueue_styles' );
+
+
+
+/* Remove tracking possibilities  
+ * For more information: https://wordpress.org/support/topic/remove-the-new-dns-prefetch-code/
+ */
+/* Removes the google fonts prefetching:
+ * <link rel='dns-prefetch' href='//fonts.googleapis.com'>
+ * <link rel='dns-prefetch' href='//s.w.org'>
+ * The fonts themselves still need to be removed.
+ */
+remove_action( 'wp_head', 'wp_resource_hints', 2 );
+
+/* Remove links to Wordpress.org for emojis */
+add_filter( 'emoji_svg_url', '__return_false' );
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+
+/* TN Dequeue Styles - Remove Google Fonts from Genesis Sample WordPress Theme
+ * Taken from: https://technumero.com/remove-google-fonts-from-wordpress-theme/
+ * Information on how to move Google fonts to your own server:
+ * https://techstuffer.com/serve-google-fonts-from-your-own-server/
+ * https://google-webfonts-helper.herokuapp.com/
+ */
+function grassroots_dequeue_google_fonts_style() {
+      wp_dequeue_style( 'twentyseventeen-fonts' );
+}
+add_action( 'wp_print_styles', 'grassroots_dequeue_google_fonts_style' );
 ?> 
 
 
